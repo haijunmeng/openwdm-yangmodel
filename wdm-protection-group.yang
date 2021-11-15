@@ -1,0 +1,259 @@
+module wdm-protection-group {
+    yang-version 1.1;
+    namespace "urn:ccsa:yang:wdm-protection-group";
+    prefix wdm-pg;
+
+    import wdm-devm {
+         prefix wdm-devm; 
+    }
+
+    organization
+        "xxx";
+    contact
+        "xxx";
+    description
+        "xxx";
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+    /*
+    * common types
+    */
+    typedef protection-type {
+        type enumeration {
+            enum OMS {
+                value 0;
+                description
+                    "OMS SNCP";
+            }
+        }
+        description
+            "protection type";
+    }
+    typedef switch-type {
+        type enumeration {
+            enum uni-switch {
+                value 0;
+                description
+                    "uni switch";
+            }
+            enum bi-switch {
+                value 1;
+                description
+                    "bi switch";
+            }
+        }
+        description
+            "switch type";
+    }
+    typedef protection-direction {
+        type enumeration {
+            enum to-primary {
+                value 0;
+                description
+                    "to primary";
+            }
+            enum to-secondary {
+                value 1;
+                description
+                    "to secondary";
+            }
+        }
+        description "protection direction";
+    }
+    typedef reversion-mode {
+        type enumeration {
+            enum return {
+                value 0;
+                description
+                    "none";
+            }
+            enum non-return {
+                value 1;
+                description
+                    "none";
+            }
+        }
+        description
+            "reversion mode";
+    }
+    typedef switch-reason {
+        type enumeration {
+            enum no-switch {
+                value 0;
+                description
+                    "no switch";
+            }
+            enum sf-switch {
+                value 1;
+                description
+                    "SF switch";
+            }
+            enum manual-switch {
+                value 2;
+                description
+                    "manual switch";
+            }
+            enum force-switch {
+                value 3;
+                description
+                    "force switch";
+            }
+            enum cleared {
+                value 4;
+                description
+                    "cleared";
+            }
+            enum wait-for-restore {
+                value 5;
+                description
+                    "WTR";
+            }
+            enum lockout {
+                value 6;
+                description
+                    "lockout of protection";
+            }
+        }
+        description
+            "switch reason";
+    }
+
+    /*
+    * groupings
+    */
+    grouping pg {
+        description
+            "pg";
+        leaf pg-id {
+            type uint16;
+            description
+                "pg id";
+        }
+        leaf protection-type {
+            type protection-type;
+            description
+                "protection type";
+        }
+        leaf reversion-mode {
+            type reversion-mode;
+            description
+                "reversion mode";
+        }
+        leaf switch-type {
+            type switch-type;
+            description
+                "switch type";
+        }
+        leaf switch-reason {
+            type switch-reason;
+            config false;
+            description
+                "switch reason";
+        }
+        leaf wait-to-restore-time {
+            type uint64;
+            units seconds;
+            description
+                "wait to restore time";
+        }
+        leaf hold-off {
+            type uint32;
+            units ms;
+            default 0;
+            description
+                "hold off time";
+        }
+        leaf protection-direction {
+            type protection-direction;
+            config false;
+            description
+                "protection direction";
+        }
+        leaf primary-port {
+            type string{
+              length "1..64";
+            }
+            description
+                "primary port (CTP/PTP)";
+        }
+        leaf secondary-port {
+            type string{
+              length "1..64";
+            }
+            description
+                "secondary port (CTP/PTP)";
+        }
+        leaf selected-port {
+            type string{
+              length "1..64";
+            }
+            config false;
+            description
+                "selected port (CTP/PTP)";
+        }
+    }
+
+    /*
+    * the data tree
+    */
+    container pgs {
+        list pg {
+            key 'pg-id';
+            uses pg;
+            description "pg";
+        }
+        description "pgs";
+    }
+
+    /*
+    * notifications
+    */
+    notification protection-switch-notification {
+        leaf protection-switch-serial-no {
+            mandatory true;
+            type uint64;
+            description
+                "protection switch serial no";
+        }
+        container pg {
+            uses pg;
+            description
+                "pg";
+        }
+        description "protection switch notification";
+    }
+
+    /*
+    * operations
+    */
+    rpc perform-protection-command {
+        description
+            "protection";
+        input {
+            leaf pg-id {
+                mandatory true;
+                type uint64;
+                description
+                    "pg id";
+            }
+
+            leaf protection-command {
+                mandatory true;
+                type switch-reason;
+                description
+                    "protection command";
+            }
+
+            leaf protection-direction {
+                mandatory true;
+                type protection-direction;
+                description
+                    "protection direction";
+            }
+        }
+    }
+}
