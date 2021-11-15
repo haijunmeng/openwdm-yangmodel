@@ -1,0 +1,861 @@
+module wdm-devm {
+    yang-version 1.1;
+    namespace "urn:ccsa:yang:wdm-devm";
+    prefix wdm-devm;
+
+    import ietf-yang-types {
+        prefix yang;
+    }
+
+    import wdm-yang-types {
+        prefix wdm-type;
+    }
+
+    import ietf-inet-types {
+        prefix inet;
+    }
+
+    organization "xxx";
+    contact "xxx";
+    description "xxx";
+    revision 2019-02-13 {
+        description "";
+        reference 
+          "";
+    }
+    /*
+    * common types
+    */
+    typedef operational-state {
+        type enumeration {
+            enum up {
+                value 0;
+                description "Up";
+            }
+            enum down {
+                value 1;
+                description "Down";
+            }
+        }
+        description "Operational state";
+    }
+    typedef admin-state {
+        type enumeration {
+            enum enabled {
+                value 0;
+                description "Enable";
+            }
+            enum disabled {
+                value 1;
+                description "Disable";
+            }
+        }
+        description "Admin state";
+    }
+    typedef laser-status {
+        type enumeration {
+            enum laser-on {
+                description "Laser on";
+            }
+            enum laser-off {
+                description "Laser off";
+            }
+            enum no-optical-module {
+                description "No optical module";
+            }
+        }
+        description "none";
+    }
+
+    typedef loopback-type {
+        type enumeration {
+            enum facility-loopback {
+                value 0;
+                description "Facility loopback";
+            }
+            enum terminal-loopback {
+                value 1;
+                description "Terminal loopback";
+            }    
+            enum non-loopback {
+                value 2;
+                description "Non loopback";
+            }
+        }
+        description "none";
+    }
+
+    typedef interface-type {
+        type enumeration {
+            enum UNI {
+                value 0;
+                description "none";
+            }
+            enum NNI {
+                value 1;
+                description "none";
+            }
+        }
+        description "none";
+    }
+    typedef service-type {
+        type enumeration {
+            enum OMS {
+                value 0;
+                description "none";
+            }
+            enum OCH {
+                value 1;
+                description "none";
+            }
+        }
+        description "none";
+    }
+    typedef me-status {
+        type enumeration {
+            enum installing {
+                value 0;
+                description "none";
+            }
+            enum running {
+                value 1;
+                description "none";
+            }
+            enum maintenance  {
+                value 2;
+                description "none";
+            }
+        }
+        description "none";
+    }
+    
+    typedef reset-type {
+        type enumeration {
+            enum soft-reset {
+                value 0;
+                description "Soft reset";
+            }
+            enum hard-reset {
+                value 1;
+                description "Hard reset";
+            }
+        }
+        description "Reset type";
+    }
+    typedef device-type {
+        type enumeration {
+            enum otm-box {
+                value 0;
+                description "none";
+            }
+            enum po-box {
+                value 1;
+                description "none";
+            }
+            enum otm-pnp {
+                value 2;
+                description "none";
+            }
+            enum po-pnp {
+                value 3;
+                description "none";
+            }
+        }
+        description "none";
+    }
+    
+    typedef device-form {
+        type enumeration {
+            enum type-i {
+                value 1;
+                description "none";
+            }
+            enum type-ii {
+                value 2;
+                description "none";
+            }
+            enum type-iii {
+                value 3;
+                description "none";
+            }
+        }
+        description "none";
+    }
+
+    typedef port-role {
+        type enumeration {
+            enum symmetric {
+                value 0;
+                description "";
+            }
+            enum root {
+                value 1;
+                description "";
+            }
+            enum leaf-node {
+                value 2;
+                description "";
+            }
+        }
+    }
+
+    typedef protect-role {
+        type enumeration {
+            enum null {
+                value 0;
+                description "";
+            }
+            enum protected {
+                value 1;
+                description "";
+            }
+            enum primary {
+                value 2;
+                description "";
+            }
+            enum secondary {
+                value 3;
+                description "";
+            }
+        }
+    }
+    
+    typedef opt-mode-type {
+        type enumeration {
+            enum WHITELIGHT {
+                value 0;
+                description "none";
+            }
+            enum CWDM {
+                value 1;
+                description "none";
+            }
+            enum MWDM {
+                value 2;
+                description "none";
+            }
+        }
+    }
+    
+    typedef mode-rate-type {
+        type enumeration {
+            enum 25Gbps {
+                value 0;
+                description "25Gbps";
+            }
+            enum 10Gbps {
+                value 1;
+                description "10Gbps";
+            }
+        }
+        description "Space type";
+    }
+    typedef wavelenth-type {
+        type enumeration {
+            enum WL1271 {
+                value 0;
+                description "1271";
+            }
+            enum WL1291 {
+                value 1;
+                description "1291";
+            }
+            enum WL1311 {
+                value 2;
+                description "1311";
+            }
+            enum WL1331 {
+                value 3;
+                description "1331";
+            }
+            enum WL1351 {
+                value 4;
+                description "1351";
+            }
+            enum WL1371 {
+                value 5;
+                description "1371";
+            }
+            enum WL1391 {
+                value 6;
+                description "1391";
+            }
+            enum WL1411 {
+                value 7;
+                description "1411";
+            }
+            enum WL1431 {
+                value 8;
+                description "1431";
+            }
+            enum WL1451 {
+                value 9;
+                description "1451";
+            }
+            enum WL1471 {
+                value 10;
+                description "1471";
+            }
+            enum WL1491 {
+                value 11;
+                description "1491";
+            }
+            
+            enum WL1267 {
+                value 12;
+                description "1267.5";
+            }
+            enum WL1274 {
+                value 13;
+                description "1274.5";
+            }
+            enum WL1287 {
+                value 14;
+                description "1287.5";
+            }
+            enum WL1294 {
+                value 15;
+                description "1294.5";
+            }
+            enum WL1307 {
+                value 16;
+                description "1307.5";
+            }
+            enum WL1314 {
+                value 17;
+                description "1314.5";
+            }
+            enum WL1327 {
+                value 18;
+                description "1327.5";
+            }
+            enum WL1334 {
+                value 19;
+                description "1334.5";
+            }
+            enum WL1347 {
+                value 20;
+                description "1347.5";
+            }
+            enum WL1354 {
+                value 21;
+                description "1354.5";
+            }
+            enum WL1367 {
+                value 22;
+                description "1367.5";
+            }
+            enum WL1374 {
+                value 23;
+                description "1374.5";
+            }
+        }
+    }
+    typedef space-type {
+        type enumeration {
+            enum 7nm {
+                value 0;
+                description "Asynchronous CBR mapping";
+            }
+            enum 13nm {
+                value 1;
+                description "Bit-synchronous CBR mapping";
+            }
+            enum 20nm {
+                value 2;
+                description "Transparent generic framing procedure";
+            }
+        }
+        description "Space type";
+    }
+    
+
+    /*
+    * groupings
+    */
+    grouping state-pac {
+        leaf operational-state {
+            mandatory true;
+            type operational-state;
+            config false;
+            description "Operational state";
+        }
+        leaf admin-state {
+            mandatory true;
+            type admin-state;
+            description "Admin state";
+        }
+        description "none";
+    }
+
+    grouping ctp {
+        leaf name {
+            type string{
+            length "1..64";
+            }
+                description "Name of ctp";
+        }
+        container state-pac {
+            uses state-pac;
+                description "State of ctp";
+        }
+        leaf layer-protocol-name {
+            mandatory true;
+            type identityref {
+                base wdm-type:layer-protocol-name;
+            }
+            description "Layer protocol name of ctp";
+        }
+        leaf protect-role {
+            mandatory true;
+            type protect-role;
+            config false;
+            description "The protect role.";
+        }
+        leaf server-tp {
+            type string{
+            length "1..64";
+            }
+                description "Server tp";
+        }
+        description "ctp";
+    }
+    /*
+    * the data tree
+    */
+    container me {
+        leaf name {
+	    mandatory true;
+            type string{
+              length "1..64";
+            }            
+            description "网元名称，默认值建议为“厂商名称/网元名称”";
+        }
+        leaf uuid {
+	    mandatory true;
+            type string;
+            config false;
+            description "Universal unique identifier, MAC address is suggested.";
+        }
+        leaf status {
+            type me-status;
+            description "";
+        }
+        leaf manufacturer {
+            mandatory true;
+            type string{
+              length "1..32";
+            }
+            config false;
+            description "Manufacturer";
+        }
+        leaf product-name {
+            mandatory true;
+            type string{
+              length "1..32";
+            }
+            config false;
+            description "Product name";
+        }
+        leaf software-version {
+            mandatory true;
+            type string{
+              length "1..32";
+            }
+            config false;
+            description "Software version";
+        }
+        leaf hardware-version {
+            mandatory true;
+            type string{
+              length "1..64";
+            }
+            config false;
+            description "Hardware version";
+        }
+        leaf device-type {
+            type device-type;
+            config false;
+            description "Device type";
+        }
+        leaf device-form {
+            mandatory true;
+            type device-form;
+            config false;
+            description "Device form";
+        }
+        leaf-list layer-protocol-name {
+            type identityref {
+                base wdm-type:layer-protocol-name;
+            }
+            min-elements 1;
+            config false;
+            description "Layer protocol name";
+        }
+        leaf ip-address {
+            mandatory true;
+            type inet:ipv4-address;
+            description "Ip address(ipv4)";
+        }
+        leaf mask {
+            mandatory true;
+            type yang:dotted-quad;
+            description "Mask";
+        }
+        leaf ntp-enable {
+            mandatory true;
+            type boolean;
+            description "Support ntp or not.";
+        }
+        container ntp-servers {
+            list ntp-server {
+                key 'name';
+                leaf name {
+                    type string {
+                        length "1..32";
+                    }
+                    description "Name of ntp server.";
+                }
+                leaf ip-address {
+                    mandatory true;
+                    type inet:ipv4-address;
+                    description "Ip address of ntp";
+                }
+                leaf port {
+                    type inet:port-number;
+                    default 123;
+                    description "Port number of ntp";
+                }
+                leaf ntp-version {
+                    type string {
+                        length "1..64";
+                    }
+                    description "Ntp version";
+                }
+                description "ntp";
+            }
+        }
+        leaf gate-way1 {
+            mandatory true;
+            type inet:ipv4-address;
+            description "Gat way1(ipv4)";
+        }
+        leaf gate-way2 {
+            type inet:ipv4-address;
+            description "Gat way2(ipv4)";
+        }
+        leaf-list eq {
+            type leafref {
+                path '/wdm-devm:eqs/wdm-devm:eq/wdm-devm:name';
+            }
+            min-elements 1;
+            config false;
+            description "Eq list";
+        }
+        leaf longitude {
+            type wdm-type:real;
+            description "longitude";
+        }
+        leaf latitude {
+            type wdm-type:real;
+            description "Latitude";
+        }
+        leaf address {
+            type string {
+                length "1..64";
+            }
+            description "Address";
+        }
+        
+        description "me";
+    }
+
+    container ptps {
+        list ptp {
+            key 'name';
+            min-elements 1;
+            leaf name {
+                type string{
+                length "1..64";
+                }
+                description "Name of ptp";
+            }
+            container state-pac {
+                uses state-pac;
+                config false;
+                description "State of ptp";
+            }
+            leaf layer-protocol-name {
+                mandatory true;
+                type identityref {
+                base wdm-type:layer-protocol-name;
+            }
+                description "Layer protocol name of ptp";
+            }
+            
+            leaf laser-status {
+                type laser-status;
+                default laser-on;
+                description "Laser status of ptp";
+            }
+            leaf-list ctp {
+                type leafref {
+                    path '/wdm-devm:ctps/wdm-devm:ctp/wdm-devm:name';
+                }
+                description "Ctp list";
+            }
+            leaf interface-type {
+                mandatory true;
+                type interface-type;
+                description "Interface type of ptp";
+            }
+            leaf loop-back {
+                type loopback-type;
+                default non-loopback;
+                description "Loop back type of ptp";
+            }
+            container optical-power-pac {
+                leaf input-power {
+                    mandatory true;
+                    type wdm-type:real;
+                    config false;
+                    description "Input power of ptp";
+                }
+                leaf output-power {
+                    mandatory true;
+                    type wdm-type:real;
+                    description "Output power of ptp";
+                }
+                leaf input-power-upper-threshold {
+                    mandatory true;
+                    type wdm-type:real;
+                    config false;
+                    description "Input power upper threshold of ptp";
+                }
+                leaf input-power-lower-threshold {
+                    mandatory true;
+                    type wdm-type:real;
+                    config false;
+                    description "Input power lower threshold of ptp";
+                }
+                description "Optical power of ptp";
+            }
+
+            description "ptp";
+        }
+        description "ptps";
+    } 
+    
+    container opt-mods {
+        list opt-mod {
+            key 'name';
+            min-elements 1;
+            leaf name {
+                type string{
+                length "1..64";
+                }
+                description "Name of optmod";
+            }
+            container state-pac {
+                uses state-pac;
+                config false;
+                description "State of optmod";
+            }
+            
+            leaf laser-status {
+                type laser-status;
+                default laser-on;
+                description "Laser status of ptp";
+            }
+            
+            leaf loop-back {
+                type loopback-type;
+                default non-loopback;
+                description "Loop back type of ptp";
+            }
+            leaf opt-mod-type {
+                mandatory true;
+                type opt-mode-type;
+                description "opt-mod-type.";
+            }
+            leaf opt-mod-rate {
+                mandatory true;
+                type mode-rate-type;
+                description "optModRate.";
+            }
+            leaf expect-wavelenth-or-freqency {
+                mandatory true;
+                type wavelenth-type;
+                description "none";
+            }
+            leaf actual-wavelenth-or-freqency {
+                mandatory true;
+                type wavelenth-type;
+                description "none";
+            }
+            leaf channel-space {
+                mandatory true;
+                type space-type;
+                description "The OCH port channelSpace.";
+            }
+            leaf opt-mod-vendor-name {
+                type string{
+                    length "1..64";
+                }
+                description "optModVendorName.";
+            }
+            leaf opt-mod-vendor-PN {
+                type string{
+                    length "1..64";
+                }
+                description "optModVendorPN.";
+            }
+            leaf opt-mod-vendor-SN {
+                type string{
+                    length "1..64";
+                }
+                description "optModVendorSN.";
+            }
+            leaf opt-mod-vendor-rev {
+                type string{
+                    length "1..64";
+                }
+                description "optModVendorRev.";
+            }
+            container optical-power-pac {
+                leaf input-power {
+                    mandatory true;
+                    type wdm-type:real;
+                    config false;
+                    description "Input power of ptp";
+                }
+                leaf output-power {
+                    mandatory true;
+                    type wdm-type:real;
+                    description "Output power of ptp";
+                }
+                leaf input-power-upper-threshold {
+                    mandatory true;
+                    type wdm-type:real;
+                    config false;
+                    description "Input power upper threshold of ptp";
+                }
+                leaf input-power-lower-threshold {
+                    mandatory true;
+                    type wdm-type:real;
+                    config false;
+                    description "Input power lower threshold of ptp";
+                }
+                description "Optical power of ptp";
+            }
+
+            description "ptp";
+        }
+        description "ptps";
+    } 
+    
+    container ctps {
+        list ctp {
+            key 'name';
+            uses ctp;
+        }
+        description "none";
+    }    
+    container eqs {
+        list eq {
+            key 'name';
+            min-elements 1;
+            leaf name {
+                type string {
+                length "1..64";
+                }
+                description "Name of eq";
+            }
+            leaf plug-state {
+                mandatory true;
+                type boolean;
+                config false;
+                description "Plug state of eq";
+            }
+            leaf software-version {
+                mandatory true;
+                type string{
+                    length "1..32";
+                }
+                config false;
+                description "Software version of eq";
+            }
+            leaf hardware-version {
+                mandatory true;
+                type string{
+                    length "1..32";
+                }
+                config false;
+                description "Hardware version of eq";
+            }
+            leaf-list ptp {
+                type leafref {
+                    path '/wdm-devm:ptps/wdm-devm:ptp/wdm-devm:name';
+                }
+                min-elements 1;
+                config false;
+                description "Ptps of eq";
+            }
+            description "eq";
+        }
+        description "eqs";
+    }
+
+    
+    /*
+    * operations
+    */
+    rpc reset {
+        description "reset";
+        input {
+            leaf eq-name {
+                type string{
+                  length "1..64";
+                }
+                description "Name of eq";
+            }
+            leaf reset-type {
+                type reset-type;
+                description "Reset type";
+            }
+        }
+    }
+
+    rpc modify-user-password {
+        input {
+            leaf old-password {
+                type string {
+                    length "8..16";
+                }
+                description "Old password.";
+            }
+            leaf new-password {
+                type string {
+                    length "8..16";
+                }
+                description "New password.";
+            }
+        }
+    }
+    
+    rpc set-managed-element-time {
+        input {
+            leaf new-time {
+                type yang:date-and-time;
+                }
+         }
+    }
+	
+	rpc get-managed-element-time {
+        output {
+            leaf date-time {
+                type yang:date-and-time;
+                }
+        }
+    }
+}
