@@ -1,0 +1,59 @@
+module wdm-yang-types {
+    yang-version 1.1;
+    namespace "urn:ccsa:yang:wdm-yang-types";
+    prefix wdm-type;
+
+    organization "xxx";
+    contact "xxx";
+    description "This module defines access-oms yang types.";
+
+    revision 2019-02-13 {
+        description "Initial revision.";
+        reference "RFC xxx";
+    }
+
+    /*
+   * Common types
+   */    
+    typedef real {
+        type union {
+            type decimal64 {
+                fraction-digits 2;
+            }
+            type decimal64 {
+                fraction-digits 18;
+            }
+        }
+    }
+    typedef granularity {
+        type enumeration {
+            enum 15min {
+                value 1;
+                description "15min granularity";
+            }
+            enum 24h {
+                value 2;
+                description "24h granularity";
+            }
+
+        }
+        description "pm granularity";
+    }
+    typedef threshold-type {
+        type enumeration {
+            enum low {
+                value 0;
+                description "low threshold-type";
+            }
+            enum high {
+                value 1;
+                description "high threshold-type";
+            }
+        }
+        description "pm threshold-type";
+    }
+
+    identity layer-protocol-name {
+        description "The name of layer protocol.";
+    }
+}
