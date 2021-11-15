@@ -1,0 +1,82 @@
+module wdm-connection {
+    yang-version 1.1;
+    namespace "urn:ccsa:yang:wdm-connection";
+    prefix wdm-con;
+
+    import wdm-devm {
+         prefix wdm-devm; 
+    }
+
+    import wdm-yang-types {
+        prefix wdm-type;
+    }
+
+    organization
+        "xxx";
+    contact
+        "xxx";
+    description
+        "xxx";
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+
+    /*
+    * common types
+    */
+
+    /*
+    * groupings
+    */
+
+    grouping connection {
+        description
+        "connection";
+        leaf name {
+            type string;
+            description
+            "connection name";
+        }
+        container state-pac {
+            description
+            "connectionstate pac";
+            uses wdm-devm:state-pac;
+        }
+        leaf layer-protocol-name {
+            mandatory true;
+            type identityref {
+                base wdm-type:layer-protocol-name;
+            }
+            description
+                "layer protocol name";
+        }
+        leaf-list ctp {
+            type leafref {
+                path '/wdm-devm:ctps/wdm-devm:ctp/wdm-devm:name';
+            }
+            min-elements 2;
+            description
+                "ctp list";
+        }
+        leaf pg-id {
+            type uint16;
+            description
+                "pg id";
+        }
+    }
+
+    /*
+    * the data tree
+    */
+    container connections {
+        list connection {
+            key 'name';
+            uses connection;
+            description "connection list";
+        }
+        description "connection container";
+    }
+}
