@@ -1,0 +1,193 @@
+module wdm-och {
+    yang-version 1.1;
+    namespace "urn:ccsa:yang:wdm-och";
+    prefix wdm-och;
+
+    import wdm-devm { 
+        prefix wdm-devm; 
+    }
+    import wdm-connection {
+        prefix wdm-con;
+    }
+    import wdm-oms {
+        prefix wdm-oms;
+    }
+    import wdm-yang-types {
+        prefix wdm-type;
+    }
+
+    organization
+        "xxx";
+
+    contact
+        "xxx";
+
+    description
+        "xxx";
+
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+    
+    
+    identity OCH {
+        base wdm-type:layer-protocol-name;
+        description "";
+    }
+    typedef wavelenth-type {
+        type enumeration {
+            enum WL1271 {
+                value 0;
+                description "1271";
+            }
+            enum WL1291 {
+                value 1;
+                description "1291";
+            }
+            enum WL1311 {
+                value 2;
+                description "1311";
+            }
+            enum WL1331 {
+                value 3;
+                description "1331";
+            }
+            enum WL1351 {
+                value 4;
+                description "1351";
+            }
+            enum WL1371 {
+                value 5;
+                description "1371";
+            }
+            enum WL1391 {
+                value 6;
+                description "1391";
+            }
+            enum WL1411 {
+                value 7;
+                description "1411";
+            }
+            enum WL1431 {
+                value 8;
+                description "1431";
+            }
+            enum WL1451 {
+                value 9;
+                description "1451";
+            }
+            enum WL1471 {
+                value 10;
+                description "1471";
+            }
+            enum WL1491 {
+                value 11;
+                description "1491";
+            }
+            
+            enum WL1267 {
+                value 12;
+                description "1267.5";
+            }
+            enum WL1274 {
+                value 13;
+                description "1274.5";
+            }
+            enum WL1287 {
+                value 14;
+                description "1287.5";
+            }
+            enum WL1294 {
+                value 15;
+                description "1294.5";
+            }
+            enum WL1307 {
+                value 16;
+                description "1307.5";
+            }
+            enum WL1314 {
+                value 17;
+                description "1314.5";
+            }
+            enum WL1327 {
+                value 18;
+                description "1327.5";
+            }
+            enum WL1334 {
+                value 19;
+                description "1334.5";
+            }
+            enum WL1347 {
+                value 20;
+                description "1347.5";
+            }
+            enum WL1354 {
+                value 21;
+                description "1354.5";
+            }
+            enum WL1367 {
+                value 22;
+                description "1367.5";
+            }
+            enum WL1374 {
+                value 23;
+                description "1374.5";
+            }
+        }
+    }
+    
+    
+    
+    typedef space-type {
+        type enumeration {
+            enum 20nm {
+                value 0;
+                description "Asynchronous CBR mapping";
+            }
+            enum 50GHz {
+                value 1;
+                description "Bit-synchronous CBR mapping";
+            }
+            enum 100GHz {
+                value 2;
+                description "Transparent generic framing procedure";
+            }
+        }
+        description "Space type";
+    }
+    
+
+    augment "/wdm-devm:ptps/wdm-devm:ptp" {
+        when "wdm-devm:layer-protocol-name = wdm-type:OCH";
+        container och-ptp-pac {
+            leaf expect-wavelenth-or-freqency {
+                mandatory true;
+                type wavelenth-type;
+                description "none";
+            }
+            leaf actual-wavelenth-or-freqency {
+                mandatory true;
+                type wavelenth-type;
+                description "none";
+            }
+            leaf channel-space {
+                mandatory true;
+                type space-type;
+                description "The OCH port channelSpace.";
+            }
+            leaf peer-opt-mod {
+                mandatory true;
+                type leafref {
+                path '/wdm-devm:opt-mods/wdm-devm:opt-mod/wdm-devm:name';
+                }
+                description "none";
+            }
+            
+        }
+    }
+
+
+}
