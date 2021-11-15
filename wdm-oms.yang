@@ -1,0 +1,113 @@
+module wdm-oms {
+    yang-version 1.1;
+    namespace "urn:ccsa:yang:wdm-oms";
+    prefix wdm-oms;
+
+    import ietf-otn-types {
+        prefix otn-types;
+    }
+    import wdm-devm { 
+        prefix wdm-devm; 
+    }
+    import wdm-connection {
+        prefix wdm-con;
+    }
+    import wdm-yang-types { 
+        prefix wdm-type; 
+    }
+
+    organization
+        "xxx";
+
+    contact
+        "xxx";
+
+    description
+        "xxx";
+
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+    /*
+    * common types
+    */
+    identity OMS {
+        base wdm-type:layer-protocol-name;
+        description "";
+    }
+
+    typedef space-type {
+        type enumeration {
+            enum 7nm {
+                value 0;
+                description "7nm";
+            }
+            enum 13nm {
+                value 1;
+                description "13nm";
+            }
+            enum 20nm {
+                value 2;
+                description "20nm";
+            }
+        }
+        description "Space type";
+    }
+
+    typedef channel-number {
+        type enumeration {
+            enum 6 {
+                value 0;
+                description "6";
+            }
+            enum 12 {
+                value 1;
+                description "12";
+            }
+            enum 18 {
+                value 2;
+                description "18";
+            }
+        }
+        description "channel number";
+    }
+
+
+    /*
+    * the data tree
+    */
+    augment "/wdm-devm:ptps/wdm-devm:ptp" {
+        when "wdm-devm:layer-protocol-name = 'wdm-type:OMS'";
+        container oms-ptp-pac {
+            leaf channel-space {
+                mandatory true;
+                type space-type;
+                description "通道间隔：7nm/13nm/20nm";
+            }
+            leaf channel-number {
+                mandatory true;
+                type channel-number;
+                description "通道个数6/12/18";
+            }
+            leaf-list och-PTP {
+                type leafref {
+                    path '/wdm-devm:ptps/wdm-devm:ptp/wdm-devm:name';
+                }
+                config false;
+                description "ochPTP.";
+            }
+            leaf channel-detail {
+                config false;
+                type string {
+                    length "1..64";
+                }
+                description "当前通道占用情况，采用SS-BB格式。SS 表示bit位的个数，采用10进制；BB是一个bit表，表示每一个通道的具体信息";
+            }
+            description "none";
+        }
+    }
+
+}
